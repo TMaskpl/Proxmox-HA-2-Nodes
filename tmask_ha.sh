@@ -27,7 +27,9 @@ now=$(date)
 
 #HA
 
-TUNNEL=HA-KRIS-POL
+FIRMA="Nazwa Firmy"
+SLACK="https://hooks.slack.com/services/SLACK"
+TUNNEL=HA-$FIRMA
 MAIL=biuro@tmask.pl
 SEM=HA.sem
 IP=pve02
@@ -37,7 +39,7 @@ if ping -c 1 $IP  &> /dev/null; then
     if test -f $SEM; then
         rm $SEM
         echo "Semafor $SEM usuniety"
-        curl -X POST --data-urlencode "payload={\"channel\": \"#tmaskpl\", \"username\": \"$IP \", \"text\": \"OK HA - $IP \", \"icon_emoji\": \":white_check_mark:\"}" https://hooks.slack.com/services/SLACK
+        curl -X POST --data-urlencode "payload={\"channel\": \"#tmaskpl\", \"username\": \"$IP \", \"text\": \"OK $FIRMA HA - $IP \", \"icon_emoji\": \":white_check_mark:\"}" $SLACK
         echo "$now - $IP $TUNNEL - OK" >> /var/log/syslog
     fi
 else
@@ -45,7 +47,7 @@ else
         echo "$now - $IP $TUNNEL - ERROR"
     else
         echo "$now - $IP $TUNNEL - ERROR"
-        curl -X POST --data-urlencode "payload={\"channel\": \"#tmaskpl\", \"username\": \"$IP \", \"text\": \"ERROR HA - $IP \", \"icon_emoji\": \":red_circle:\"}" https://hooks.slack.com/services/SLACK
+        curl -X POST --data-urlencode "payload={\"channel\": \"#tmaskpl\", \"username\": \"$IP \", \"text\": \"ERROR $FIRMA HA - $IP \", \"icon_emoji\": \":red_circle:\"}" $SLACK
         echo "$now - $IP $TUNNEL - ERROR" >> /var/log/syslog
         sleep 120
         $SCRIPT
