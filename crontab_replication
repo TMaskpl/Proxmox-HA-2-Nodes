@@ -1,0 +1,2 @@
+0 20 * * * sed -i 's/schedule \*\/2:00/schedule 21:00/g' /etc/pve/replication.cfg
+0 6 * * * sed -i 's/schedule 21:00/schedule \*\/2:00/g' /etc/pve/replication.cfg
